@@ -1,0 +1,90 @@
+def daysBetweenDates(year1, month1, day1, year2, month2, day2):
+    dom = { 1:31, 2:28, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
+
+    def leap_test(year):
+                if year % 4 == 0:
+                    if year % 100 == 0:
+                        if year % 400 == 0:
+                            return 'leap_year'
+                        else:
+                            return 'non_leap'
+                    else: 
+                        return 'leap_year'        
+                else:
+                    return 'non_leap'
+                
+
+
+    def year1_days (year1,month1,day1):
+                days = 0
+                for m in range(1,month1):
+                    days += dom[m]
+                    
+                if  leap_test(year1) == 'non_leap':
+                    days += day1
+                    result1 = 365 - days
+                    
+                elif month1 >= 2 and day1 > 28:
+                    days += day1 + 1
+                    result1 = 366 - days 
+                else:
+                    result1 = 365 - day1
+            
+                return result1
+
+
+
+
+    def year2_days (year2,month2,day2):
+
+                result2 = 0
+                
+                for m in range(1,month2):
+                    result2 += dom[m]
+
+                if leap_test(year2) == 'non_leap':
+                    result2 += day2 - 1
+                    
+                elif month2 > 2:
+                    result2 += day2 + 1 - 1
+            
+                else:
+                    result2 += day2 -1
+            
+                return result2
+    
+    
+    result1 = year1_days (year1,month1,day1)
+    
+    result2 = year2_days (year2,month2,day2)
+    
+    if year1 == year2:
+        if leap_test(year1) == 'non_leap':
+            days_between_days = result1 + result2 - 365
+        else:
+            days_between_days = result1 + result2 - 365 + 1
+    
+    elif year2 - year1 == 1:
+        days_between_days = result1 + result2 + 1
+        
+        
+    else:
+        
+        leap_years = []
+        non_leap_years =[]        
+    
+        for year in range(year1 + 1, year2):
+            if leap_test(year) == 'leap_year':
+                leap_years.append(year)
+            else:
+                non_leap_years.append(year)
+
+        days_middle = len(leap_years)  * 366 + len(non_leap_years) *365
+    
+        days_between_days = days_middle + result1 + result2 + 1
+
+    return(days_between_days)
+    
+    
+    
+def daysBetweenDates(year1, month1, day1, year2, month2, day2)
