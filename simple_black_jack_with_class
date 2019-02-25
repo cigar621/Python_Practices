@@ -1,0 +1,143 @@
+import random
+class Deck():
+    def __init__(self):
+        self.suits = ['Diamond','Spade','Club','Heart']
+        numbers = list(range(1,14))
+        self.total_cards = {}
+        for suit in self.suits:
+            self.total_cards[suit] = numbers[:]
+        
+    def show_cards(self):
+        print(self.total_cards)
+    
+    def deal_card(self):
+        random_suit = random.choice(self.suits)
+        random_number =random.choice(self.total_cards[random_suit])
+        
+        #define card value
+        if random_number == 1:
+            self.card_name = 'A'
+            self.card_value = 11
+            
+        elif random_number == 11:
+            self.card_name = 'Jack'
+            self.card_value = 10
+            
+        elif random_number == 12:
+            self.card_name == 'Queen'
+            self.card_value = 10
+            
+        elif random_number == 13:
+            self.card_name = 'King'
+            self.card_value = 10
+        else:
+            self.card_name = str(random_number) 
+            self.card_value = random_number
+        
+        
+        
+
+
+        #define card name
+        if random_number == 1:
+            self.card_name = 'A'
+        elif random_number == 11:
+            self.card_name = 'Jack'
+        elif random_number == 12:
+            self.card_name == 'Queen'
+        elif random_number == 13:
+            self.card_name = 'King'
+        else:
+            card_name = str(random_number)   
+        
+        self.card_suit = random_suit
+        self.total_cards[random_suit].remove(random_number)
+
+        
+    
+        
+class Hand():
+    def __init__(self,deck):
+        self.hand_score = 0
+        self.aces = 0 
+
+    def hit(self,deck):
+        deck.deal_card()
+        if deck.card_name == 'A':
+            self.aces += 1
+            self.hand_score += deck.card_value
+            if self.hand_score >= 21:
+                self.aces -= 1
+                self.hand_score -= 10
+        else:
+            self.hand_score += deck.card_value
+
+
+    def return_score(self,deck):
+        return self.hand_score
+
+    def show_score(self,deck):
+        print("Your score is "+ str(self.hand_score))
+
+
+
+def start_blackjack():
+    ask = input("Start a black jack game? Yes/No")
+    if ask.lower() == 'yes':
+        new_deck = Deck()
+        ai_hand = Hand(new_deck)
+        player_hand = Hand(new_deck)
+
+        ai_hand.hit(new_deck)
+        print("\nThe AI got a card.")
+        ai_card1 = str(new_deck.card_name) + " of "+ new_deck.card_suit
+        
+        player_hand.hit(new_deck)
+        print("\nYour first card is a "+ str(new_deck.card_name) + " of "+ new_deck.card_suit)
+
+        ai_hand.hit(new_deck)
+        print("\nThe AI got a card.")
+        print("\nThe card is a "+ str(new_deck.card_name) + " of "+ new_deck.card_suit)
+        
+        player_hand.hit(new_deck)
+        print("\nYour second card is a "+ str(new_deck.card_name) + " of "+ new_deck.card_suit)
+        
+        player_hand.show_score(new_deck)
+        
+        while player_hand.hand_score < 21:
+            ask1 = input("Would you like to hit? Yes/No")
+            if ask1.lower() == 'yes':
+                player_hand.hit(new_deck)
+                print("\nYou got a new card, the card is a: "+str(new_deck.card_name) + " of "+ new_deck.card_suit)
+                player_hand.show_score(new_deck)
+    
+            else:
+                print("\nThe AI's first card is a "+ ai_card1)
+                while ai_hand.hand_score < 17:
+                    print("\nThe AI's score is "+ str(ai_hand.hand_score))
+                    ai_hand.hit(new_deck)
+                    print("\nThe AI got a new card, the card is a "+str(new_deck.card_name) + " of "+ new_deck.card_suit)
+                    print("\nThe AI's score is "+ str(ai_hand.hand_score))
+        
+                if ai_hand.hand_score > 21:
+                    print("\nAI busted! You win!")
+                    break
+
+                else:
+                    print("\nThe AI's score is "+ str(ai_hand.hand_score))
+                    if player_hand.hand_score > ai_hand.hand_score:
+                        print("\nYou win!")
+                        break
+                    elif player_hand.hand_score < ai_hand.hand_score:
+                        print("\nYou lose!")
+                        break
+                    else:
+                        print("\nDraw!")
+                        break
+          
+           
+        else:
+            print("\nBusted! You lose!")  
+                
+
+start_blackjack()
