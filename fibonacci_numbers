@@ -1,0 +1,8 @@
+def fibonacci(n):
+    a = 1
+    b = 1
+    numbers = []
+    for i in range(n):
+        numbers.append(a)
+        a, b = b, a+b 
+    print(numbers)
