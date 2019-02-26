@@ -4,5 +4,5 @@ def fibonacci(n):
     numbers = []
     for i in range(n):
         numbers.append(a)
-        a, b = b, a+b 
+        a, b = b, a+b #tuple assignment, this is different from a = b, b = a + b, this is actually, c = a+b , a = b, b = c
     print(numbers)
